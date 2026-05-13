@@ -1,0 +1,90 @@
+# autopilot
+
+A Claude Code skill that scaffolds long-running, hands-off sessions without burning money on the wrong problem.
+
+## What it does
+
+`/autopilot <task>` walks you through:
+
+1. **Plan** — define the task as a list of subtasks, each with a **user-observable acceptance criterion**
+2. **Budget** — set hard caps on iterations, cost, and wall-clock
+3. **Mode** — pick interactive (`/loop`), local cron, or cloud (`/schedule` Routines)
+4. **Hand-off** — print the exact command to start the loop
+
+The loop itself is built on top of Anthropic's official `/ralph-loop` plugin and the bundled `/loop` skill. autopilot adds three regimens those alone don't enforce:
+
+- The agent re-reads the plan + accumulated lessons at the top of every iteration (deterministic stack — context never bloats)
+- Three consecutive failures on a task halts the run (truth-bias defense)
+- Ambiguity surfaces as `<status>NEEDS_HUMAN</status>` instead of a guess
+
+## Install
+
+From a clone of this repo, run the installer for your OS. It links the skill into `~/.claude/skills/autopilot/` so Claude Code can discover it. Idempotent — safe to re-run.
+
+```powershell
+# Windows (no admin / dev-mode needed — uses a directory Junction)
+pwsh -File scripts/install.ps1
+```
+
+```bash
+# macOS / Linux
+bash scripts/install.sh
+```
+
+Then in any Claude Code session: `/autopilot <task description>`.
+
+### If you can't run the script
+
+The installer is just one command. Manual equivalent:
+
+```powershell
+# Windows
+New-Item -ItemType Junction `
+  -Path  "$env:USERPROFILE\.claude\skills\autopilot" `
+  -Target (Resolve-Path .)
+```
+
+```bash
+# macOS / Linux
+ln -s "$(pwd)" ~/.claude/skills/autopilot
+```
+
+## File layout
+
+```
+autopilot/
+├── SKILL.md                       # the skill definition (workflow Claude follows)
+├── README.md                      # this file
+├── templates/
+│   ├── PLAN.md                    # task list with user-observable acceptance tests
+│   ├── RUN.md                     # loop body — fed to Claude every iteration
+│   ├── LESSONS.md                 # cross-iteration memory (Reflexion-style)
+│   └── BUDGET.md                  # caps + halt conditions
+└── references/
+    ├── completion-criteria.md     # the single highest-leverage page — read first
+    ├── halt-conditions.md         # exit statuses + the truth-bias problem
+    ├── modes.md                   # interactive / local-cron / cloud comparison
+    └── prior-art.md               # which pattern came from where
+```
+
+## When to use vs not use
+
+**Use** when: multi-step task, you'll walk away, mistakes are expensive to undo, you want a postmortem.
+
+**Don't use** when: single repetitive poll (use `/loop` directly), already-clear one-shot prompt (use `/ralph-loop` directly), or you'll be at the keyboard anyway.
+
+## The non-obvious pieces
+
+If you only read three things in this repo:
+
+1. [`references/completion-criteria.md`](references/completion-criteria.md) — why "tests pass" is not an acceptance criterion
+2. [`references/halt-conditions.md`](references/halt-conditions.md) — why 3 failures is the rule, not 5 or 10
+3. [`templates/RUN.md`](templates/RUN.md) — the actual loop body; everything else exists to make this small
+
+## Prior art
+
+This skill composes ~20 patterns from Anthropic's official docs, the English Ralph-loop community, the Japanese 自走 community, and agentic-loop research. Full attribution in [`references/prior-art.md`](references/prior-art.md).
+
+## License
+
+Inherits the parent repo's license.
