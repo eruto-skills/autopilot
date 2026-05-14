@@ -19,7 +19,12 @@ The loop itself is built on top of Anthropic's official `/ralph-loop` plugin and
 
 ## Install
 
-From a clone of this repo, run the installer for your OS. It links the skill into `~/.claude/skills/autopilot/` so Claude Code can discover it. Idempotent — safe to re-run.
+Clone the repo somewhere stable, then run the installer for your OS. It links the skill into `~/.claude/skills/autopilot/` so Claude Code discovers it. Idempotent — safe to re-run.
+
+```bash
+git clone https://github.com/eruto-skills/autopilot.git
+cd autopilot
+```
 
 ```powershell
 # Windows (no admin / dev-mode needed — uses a directory Junction)
