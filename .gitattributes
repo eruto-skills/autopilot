@@ -1,7 +1,1 @@
-# Force LF for shell scripts so they execute in WSL / macOS / Linux.
-*.sh text eol=lf
-
-# Force LF for markdown so cross-platform diffs stay clean.
-*.md text eol=lf
-
-# PowerShell tolerates CRLF, leave default behavior.
+* text=auto eol=lf
