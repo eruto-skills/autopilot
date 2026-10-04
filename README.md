@@ -96,6 +96,10 @@ Inherits the parent repo's license.
 
 ## Codex / Claude Code installation
 
+For an existing clone, run `bash scripts/install.sh --host codex` on macOS/Linux,
+or `./scripts/install.ps1 -HostName codex` in Windows PowerShell.
+The installer keeps Claude as its default target and preserves existing directories.
+
 This package supports both Codex and Claude Code. The plugin entry point is
 `skills/autopilot/SKILL.md`; the root `SKILL.md` remains the standalone source.
 
