@@ -1,0 +1,13 @@
+{
+  "name": "autopilot",
+  "description": "Plan and run long tasks in Codex or Claude Code with observable completion criteria, lessons, and iteration limits.",
+  "author": {
+    "name": "Eruto Kondo",
+    "email": "erutobusiness@gmail.com"
+  },
+  "homepage": "https://github.com/eruto-skills/autopilot",
+  "repository": "https://github.com/eruto-skills/autopilot",
+  "license": "MIT",
+  "version": "1.1.0",
+  "skills": "./skills/"
+}
